@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import CardList from '@/components/CardList';
 import { getUsersData } from '@/services/UsersService';
+import { MESSAGE } from '@/constants/message';
 
 export default function UsersScreen() {
   const [users, setUsers] = useState([{}])
@@ -31,7 +32,7 @@ export default function UsersScreen() {
 
         setUsers(d)
       } catch(err) {
-        setError('Error') 
+        setError(MESSAGE.ERROR) 
       } finally {
         setLoading(false)
       }
