@@ -14,8 +14,6 @@ export default function CardDetail(props: CardDetailProps) {
   const [loading, setLoading] = useState(true)
   const detailData = data[cardId - 1]
 
-  console.log(data)
-
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
