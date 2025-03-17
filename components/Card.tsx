@@ -10,7 +10,6 @@ type CardProps = {
   price: number,
   shippingInformation: string,
   image: string[],
-  recipeName: string,
   cuisine: string,
   difficulty: string,
   getCardId: Dispatch<SetStateAction<number>>,
@@ -26,7 +25,6 @@ export default function Card(props: CardProps) {
     price = 0,
     shippingInformation = '',
     image = '',
-    recipeName = '',
     cuisine = '',
     difficulty = '',
     cardId,
@@ -61,7 +59,7 @@ export default function Card(props: CardProps) {
       </View>
       <View style={styles.cardDesc}>
         <Text style={styles.name}>
-          {name || title || recipeName}
+          {name}
         </Text>
         <Text style={styles.name}>
           {phoneNumber || price || cuisine}
@@ -70,7 +68,7 @@ export default function Card(props: CardProps) {
           {address || shippingInformation || difficulty}
         </Text>
         <Text style={styles.name}>
-          {name || title || recipeName}
+          {name}
         </Text>
         <Text style={styles.name}>
           {phoneNumber || price || cuisine}
