@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { View, ScrollView, StyleSheet, TextInput, Modal, Text, ActivityIndicator, TouchableOpacity, Button } from 'react-native'
 import Card from './Card'
 import CardDetail from './CardDetail'
+import RenderIf from '@/helper/renderIf'
 
 type CardListProps = {
   type: string,
@@ -19,9 +20,7 @@ export default function CardList(props: CardListProps) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleQuery = (query: string) => {
-    const filteredData = data[0]?.name ?
-      [data.find((item) => item?.name?.includes(query))] :
-      [data.find((item) => item?.title?.includes(query))] || []
+    const filteredData = [data.find((item) => item?.name?.includes(query))]
 
     if (filteredData) {
       setRenderData(filteredData)
@@ -47,7 +46,6 @@ export default function CardList(props: CardListProps) {
       price={data?.price}
       shippingInformation={data?.shippingInformation}
       image={data?.image}
-      recipeName={data?.name}
       cuisine={data?.cuisine}
       difficulty={data?.difficulty}
       cardId={data?.id}
@@ -66,9 +64,11 @@ export default function CardList(props: CardListProps) {
           style={styles.inputSearch}
           onChangeText={query => onChangeQuery(query)}
           placeholder='Search...' />
-        {modalVisible && <CardDetail cardId={cardId} data={data} type={type} closeModal={closeModal} />}
+        <RenderIf isTrue={modalVisible}>
+          <CardDetail cardId={cardId} data={data} type={type} closeModal={closeModal} />
+        </RenderIf>
         {loading ? (
-          <View style={{width: '100%', height: '800%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ width: '100%', height: '800%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" color='#0000ff' />
           </View>
         ) : error ? (
