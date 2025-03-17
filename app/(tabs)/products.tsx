@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import CardList from '@/components/CardList';
 import { MESSAGE } from '@/constants/message';
 import { getProductsData } from '@/services/ProductsService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProductsScreen() {
   const [products, setProducts] = useState([{}])
@@ -16,7 +17,11 @@ export default function ProductsScreen() {
     (async () => {
       try {
         setLoading(true)
-        const data = await getProductsData()
+
+        const dataStorage = await AsyncStorage.getItem('products')
+        const productsStorage = JSON.parse(dataStorage || '')
+
+        const data = productsStorage ? productsStorage : await getProductsData()
 
         data.forEach((product: any) => {
           d.push({
@@ -33,7 +38,7 @@ export default function ProductsScreen() {
         })
 
         setProducts(d)
-      } catch(err) {
+      } catch (err) {
         setError(MESSAGE.ERROR)
         console.error(err)
       } finally {
