@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import CardList from '@/components/CardList';
 import { getUsersData } from '@/services/UsersService';
 import { MESSAGE } from '@/constants/message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function UsersScreen() {
   const [users, setUsers] = useState([{}])
@@ -14,8 +15,11 @@ export default function UsersScreen() {
     (async () => {
       try {
         setLoading(true)
-
-        const data = await getUsersData()
+        
+        const dataStorage = await AsyncStorage.getItem('users')
+        const usersStorage = JSON.parse(dataStorage || '')
+        
+        const data = usersStorage ? usersStorage : await getUsersData()
 
         data.forEach((user: any) => {
           d.push({
